@@ -8,18 +8,19 @@ import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDe
 import androidx.navigation3.runtime.entry
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import androidx.navigation3.ui.rememberSceneSetupNavEntryDecorator
 import com.mfa.nav3test.navigation.Destination
 import com.mfa.nav3test.navigation.scenes.TwoPaneScene
 import com.mfa.nav3test.navigation.scenes.TwoPaneSceneStrategy
-import com.mfa.nav3test.note.NoteDetailScreenUi
-import com.mfa.nav3test.note.NoteListScreenUi
+import com.mfa.nav3test.note.NoteDetailScreen
+import com.mfa.nav3test.note.NoteListScreen
 import org.koin.androidx.compose.koinViewModel
-import org.koin.core.parameter.parametersOf
 
 @Composable
-fun NoteGraph() {
+fun NoteGraph(
+) {
     val backStack = rememberNavBackStack<Destination>(Destination.NoteListScreen)
     val stateHolder = rememberSaveableStateHolder()
 
@@ -28,8 +29,9 @@ fun NoteGraph() {
         backStack = backStack,
         onBack = { backStack.removeLastOrNull() },
         entryDecorators = listOf(
+            rememberSceneSetupNavEntryDecorator(),
+            rememberSavedStateNavEntryDecorator(),
             rememberViewModelStoreNavEntryDecorator(),
-            rememberSceneSetupNavEntryDecorator()
         ),
         sceneStrategy = TwoPaneSceneStrategy(),
         entryProvider = entryProvider {
@@ -37,13 +39,14 @@ fun NoteGraph() {
                 metadata = TwoPaneScene.twoPane()
             ) {
                 stateHolder.SaveableStateProvider(it.title) {
-                    NoteListScreenUi(
+                    NoteListScreen(
                         onNoteClick = { noteId ->
-                            if (backStack.lastOrNull() is Destination.NoteDetailScreen){
+                            if (backStack.lastOrNull() is Destination.NoteDetailScreen) {
                                 backStack.removeLastOrNull()
                             }
                             backStack.add(Destination.NoteDetailScreen(noteId))
-                        })
+                        }
+                    )
                 }
             }
 
@@ -51,10 +54,10 @@ fun NoteGraph() {
                 metadata = TwoPaneScene.twoPane()
             ) { entry ->
                 stateHolder.SaveableStateProvider(entry.id) {
-                    NoteDetailScreenUi(
-                        viewModel = koinViewModel {
-                            parametersOf(entry.id)
-                        })
+                    NoteDetailScreen(
+                        viewModel = koinViewModel(),
+                        noteId = entry.id
+                    )
                 }
             }
         }

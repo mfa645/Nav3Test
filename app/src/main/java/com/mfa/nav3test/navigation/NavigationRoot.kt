@@ -23,7 +23,6 @@ import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.entry
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
@@ -84,7 +83,6 @@ fun NavigationRoot() {
             },
             entryDecorators = listOf(
                 rememberSavedStateNavEntryDecorator(),
-                rememberViewModelStoreNavEntryDecorator(),
             ),
             entryProvider = entryProvider {
                 entry<Destination.NoteGraph> {

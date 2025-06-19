@@ -21,7 +21,7 @@ val noteItems = List(100) {
     Note(
         id = it,
         title = "Note $it",
-        content = "Content $it",
+        content = "Detail content of note $it",
         colorValue = ColorSerializer.fromColor(color)
     )
 }

@@ -12,7 +12,7 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.mfa.nav3test.navigation.Destination
-import com.mfa.nav3test.profile.Profile
+import com.mfa.nav3test.profile.ProfileScreen
 
 @Composable
 fun HomeGraph() {
@@ -28,7 +28,7 @@ fun HomeGraph() {
         ),
         entryProvider = entryProvider {
             entry<Destination.Home> { entry ->
-                Profile(
+                ProfileScreen(
                     name = "Cucuruxo",
                     onNavigate = { destination ->
                         backStack.add(destination)
@@ -37,12 +37,12 @@ fun HomeGraph() {
             }
 
             entry<Destination.NameEditDialog> { entry ->
-                Text("Name Edit Dialog")
+                Text("Name Edit Screen")
 
             }
 
             entry<Destination.NameEditScreen> { entry ->
-                Text("Name Edit Screen")
+                Text("Photo Edit Screen")
             }
         }
     )
