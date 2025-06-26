@@ -1,5 +1,11 @@
 package com.mfa.nav3test.navigation.graphs
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
@@ -34,6 +40,16 @@ fun NoteGraph(
             rememberViewModelStoreNavEntryDecorator(),
         ),
         sceneStrategy = TwoPaneSceneStrategy(),
+        predictivePopTransitionSpec = {
+            (slideInHorizontally(
+                initialOffsetX = { fullWidth -> -fullWidth },
+                animationSpec = tween(100)
+            ) + fadeIn()) togetherWith
+                    (slideOutHorizontally(
+                        targetOffsetX = { fullWidth -> fullWidth },
+                        animationSpec = tween(100)
+                    ) + fadeOut())
+        },
         entryProvider = entryProvider {
             entry<Destination.NoteListScreen>(
                 metadata = TwoPaneScene.twoPane()

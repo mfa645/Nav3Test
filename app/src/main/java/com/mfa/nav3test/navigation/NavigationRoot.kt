@@ -147,7 +147,7 @@ private val Items = listOf(
     ),
     Item(
         1,
-        "List",
+        "Notes",
         Icons.AutoMirrored.Filled.List,
         Destination.NoteGraph,
     ),
